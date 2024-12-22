@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import NavSearchBar from "./NavSearchBar";
 
 function NavBar() {
-  const { user } = useUser();
+  const { user, setUser } = useUser(); // Ensure `setUser` is available in your context
   const pathname = usePathname();
   const router = useRouter();
   const [isVisible, setIsVisible] = useState(true);
@@ -19,9 +19,14 @@ function NavBar() {
     }
   };
 
-  const handleLoginClick = () => {
-    setIsVisible(false);
-    router.push("/login");
+  const handleLoginLogoutClick = () => {
+    if (user) {
+      // Clear user data
+      setUser(null); // Ensure `setUser` is provided in your context
+      router.push("/login"); // Navigate to login page
+    } else {
+      router.push("/login");
+    }
   };
 
   useEffect(() => {
@@ -35,7 +40,10 @@ function NavBar() {
       <div className="container mx-auto px-4 py-6 flex justify-between items-center">
         {/* Logo and Navigation Links */}
         <div className="flex items-center">
-          <Link  href={`/${user?.id ? user.id : "guest"}`} className="text-red-600 text-4xl font-bold">
+          <Link
+            href={`/${user?.id ? user.id : "guest"}`}
+            className="text-red-600 text-4xl font-bold"
+          >
             MOVIE DB
           </Link>
           <div className="ml-8 space-x-4 flex">
@@ -58,8 +66,12 @@ function NavBar() {
               Watch Later
             </button>
             <button
-              onClick={handleLoginClick}
-              className="flex items-center space-x-2 text-white px-5 py-2 rounded-lg bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 shadow-lg transition duration-300 transform hover:scale-105"
+              onClick={handleLoginLogoutClick}
+              className={`flex items-center space-x-2 text-white px-5 py-2 rounded-lg ${
+                user
+                  ? "bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800"
+                  : "bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800"
+              } shadow-lg transition duration-300 transform hover:scale-105`}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -72,10 +84,16 @@ function NavBar() {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-9A2.25 2.25 0 002.25 5.25v13.5A2.25 2.25 0 004.5 21h9a2.25 2.25 0 002.25-2.25V15M21 12h-6m0 0l2.25-2.25M15 12l2.25 2.25"
+                  d={
+                    user
+                      ? "M17 16l4-4m0 0l-4-4m4 4H7m6-4v8" // Logout icon
+                      : "M7 8l-4 4m0 0l4 4m-4-4h14m-6-4v8" // Login icon
+                  }
                 />
               </svg>
-              <span className="text-sm font-medium">Login</span>
+              <span className="text-sm font-medium">
+                {user ? "Logout" : "Login"}
+              </span>
             </button>
           </div>
         </div>

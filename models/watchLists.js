@@ -4,8 +4,14 @@ import mongoose from "mongoose";
 delete mongoose.models.WatchList;
 
 const WatchListSchema = new mongoose.Schema({
-  userId: { type: String, required: true },
-  movieId: { type: String, required: true },
+  userId: {
+    type: String,
+    required: true,
+  },
+  movieId: {
+    type: String,
+    required: true,
+  },
 });
 
 export default mongoose.model("WatchList", WatchListSchema);

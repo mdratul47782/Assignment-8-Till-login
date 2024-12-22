@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
   const { pathname } = request.nextUrl;
 
-  // Redirect to /guest if the user is at the root URL
+  
   if (pathname === "/") {
     return NextResponse.redirect(new URL("/guest", request.url));
   }

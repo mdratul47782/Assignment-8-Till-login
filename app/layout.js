@@ -3,6 +3,7 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 import { UserProvider } from "./context/UserContext";
 import UserProviderClient from "@/components/UserProviderClient";
+import { redirect } from "next/navigation";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -20,7 +21,7 @@ export const metadata = {
 };
 
 export default async function RootLayout({ children }) {
- 
+  
   return (
     <html lang="en">
       <UserProviderClient>

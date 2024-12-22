@@ -1,3 +1,4 @@
+
 import { fetchmovieDetails } from "@/app/lib/MovieDetails/movieDetalis";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -11,7 +12,7 @@ const SimilarMovies = dynamic(() => import("./SimilarMovies"), {
   suspense: true,
 });
 
-async function MovieDetails({ id,userId }) {
+async function MovieDetails({ id, userId }) {
   console.log("User ID:", userId, "Movie ID:", id);
   // Fetch movie details on the server side
   const movie = await fetchmovieDetails(id);
@@ -83,10 +84,15 @@ async function MovieDetails({ id,userId }) {
                     ))}
                   </div>
                 </div>
-                <Cast id={id}/>
+                <Cast id={id} />
                 <div className="mb-6">
                   <div className="flex flex-wrap gap-4">
-                    <AddToWatch />
+                    <AddToWatch
+                      userId={userId}
+                      movieId={id}
+                     
+                    />
+
                     <AddedToWatch />
                   </div>
                 </div>

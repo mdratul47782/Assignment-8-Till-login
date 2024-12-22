@@ -3,18 +3,19 @@ import PopularMovies from "@/components/PopularMovies";
 import TopRatedMovies from "@/components/TopRatedMovies";
 import TrendingMovies from "@/components/TrendingMovies";
 
-export default function Home() {
+export default function Home({ params: { id } }) {
+  
   return (
     <div>
-      <HeroSection />
+      <HeroSection id={id} />
       {/* <!-- Movie Sections --> */}
       <div className="container mx-auto px-4 py-8">
         {/* <!-- Trending Movies --> */}
-        <TrendingMovies />
+        <TrendingMovies id={id}/>
         {/* <!-- Popular Movies --> */}
-        <PopularMovies />
+        <PopularMovies id={id}/>
         {/* <!-- Top Rated Movies --> */}
-        <TopRatedMovies />
+        <TopRatedMovies id={id}/>
       </div>
     </div>
   );

@@ -1,32 +1,37 @@
 "use client";
 import { useUser } from "@/app/context/UserContext";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function LoginForm({ users }) {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [error, setError] = useState(""); // State to manage error message
   const router = useRouter();
-  const { setUser } = useUser(); // Context থেকে setUser আনুন
+  const { user, setUser } = useUser(); // Access user and setUser from context
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     // Find the user matching the email and password
-    const user = users.find(
+    const matchedUser = users.find(
       (user) => user.email === email && user.pass === pass
     );
 
-    if (user) {
-      // Context-এ ব্যবহারকারীর তথ্য সেট করুন
-      setUser({ name: user.name, email: user.email, id: user._id });
-      // Redirect to the home page
-      router.push("/");
+    if (matchedUser) {
+      // Set the user context
+      setUser({ name: matchedUser.name, email: matchedUser.email, id: matchedUser._id });
     } else {
       setError("Invalid email or password"); // Set error message
     }
   };
+
+  // Redirect when the user context is updated
+  useEffect(() => {
+    if (user?.id) {
+      router.push(`/${user.id}`);
+    }
+  }, [user, router]);
 
   return (
     <form id="loginForm" onSubmit={handleSubmit} className="space-y-4">

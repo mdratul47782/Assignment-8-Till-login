@@ -2,8 +2,8 @@
 import { useUser } from "@/app/context/UserContext";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import NavSearchBar from "./NavSearchBar";
-import { useState, useEffect } from "react";
 
 function NavBar() {
   const { user } = useUser();
@@ -35,11 +35,14 @@ function NavBar() {
       <div className="container mx-auto px-4 py-6 flex justify-between items-center">
         {/* Logo and Navigation Links */}
         <div className="flex items-center">
-          <Link href="/" className="text-red-600 text-4xl font-bold">
+          <Link  href={`/${user?.id ? user.id : "guest"}`} className="text-red-600 text-4xl font-bold">
             MOVIE DB
           </Link>
           <div className="ml-8 space-x-4 flex">
-            <Link href="/" className="text-white hover:text-gray-300">
+            <Link
+              href={`/${user?.id ? user.id : "guest"}`}
+              className="text-white hover:text-gray-300"
+            >
               Home
             </Link>
             <button

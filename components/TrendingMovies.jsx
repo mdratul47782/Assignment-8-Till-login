@@ -2,7 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { fetchTrendingMovies } from "@/app/lib/HomePageCalles/trendingMovies";
 
-export default async function TrendingMovies() {
+export default async function TrendingMovies({ id }) {
+  const userId = id; // Retrieve userId from props
+  console.log(userId);
+
   // Fetch movies on the server side
   const movies = await fetchTrendingMovies();
 
@@ -15,7 +18,7 @@ export default async function TrendingMovies() {
             key={movie.id}
             className="flex-shrink-0 w-48 cursor-pointer hover:scale-105 transition-transform"
           >
-            <Link href={`Details/${movie.id}`}>
+            <Link href={`Details/${movie.id}?userId=${userId}`}>
               <div className="relative w-full h-64">
                 <Image
                   src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}

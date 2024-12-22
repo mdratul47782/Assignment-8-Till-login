@@ -11,7 +11,8 @@ const SimilarMovies = dynamic(() => import("./SimilarMovies"), {
   suspense: true,
 });
 
-async function MovieDetails({ id }) {
+async function MovieDetails({ id,userId }) {
+  console.log("User ID:", userId, "Movie ID:", id);
   // Fetch movie details on the server side
   const movie = await fetchmovieDetails(id);
 

@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
 
-// Clear existing model if it exists
-delete mongoose.models.WatchList;
-
 const WatchListSchema = new mongoose.Schema({
   userId: {
     type: String,
@@ -12,6 +9,17 @@ const WatchListSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  ImageSrc: {
+    type: String,
+    required: true,
+  },
+  movieTitle: {
+    type: String,
+    required: true,
+  },
 });
 
-export default mongoose.model("WatchList", WatchListSchema);
+// Use existing model if available, or define a new one
+const WatchList = mongoose.models.WatchList || mongoose.model("WatchList", WatchListSchema);
+
+export default WatchList;

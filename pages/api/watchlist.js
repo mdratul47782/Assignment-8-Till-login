@@ -5,6 +5,8 @@ import mongoose from "mongoose";
 const WatchListSchema = new mongoose.Schema({
   userId: { type: String, required: true },
   movieId: { type: String, required: true },
+  ImageSrc: {type: String,required: true},
+  movieTitle: {type: String,required: true},
 });
 
 // Create or Use Existing Model
@@ -17,10 +19,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method not allowed" });
   }
 
-  const { userId, movieId } = req.body;
+  const { userId, movieId,movieTitle, ImageSrc } = req.body;
 
   // Validate input
-  if (!userId || !movieId) {
+  if (!userId || !movieId ||movieTitle  ||ImageSrc ) {
     console.error("Missing required fields: userId or movieId");
     return res.status(400).json({ message: "Missing required fields." });
   }

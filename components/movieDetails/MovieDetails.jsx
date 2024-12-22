@@ -1,20 +1,33 @@
-
 import { fetchmovieDetails } from "@/app/lib/MovieDetails/movieDetalis";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import SocialMedia from "./SocialMedia";
 import { Suspense } from "react";
 import Cast from "./Cast";
-import AddToWatch from "./AddToWatch";
-import AddedToWatch from "./AddedToWatch";
+import WatchActions from "./WatchActions";
+import Skeleton from "./Skeleton"; // Skeleton component
 
 const SimilarMovies = dynamic(() => import("./SimilarMovies"), {
   suspense: true,
 });
 
-async function MovieDetails({ id, userId }) {
-  console.log("User ID:", userId, "Movie ID:", id);
-  // Fetch movie details on the server side
+function SimilarMoviesSkeleton() {
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+      {Array(8)
+        .fill(null)
+        .map((_, index) => (
+          <div key={index} className="space-y-4">
+            <Skeleton className="h-40 w-full" />
+            <Skeleton className="h-6 w-3/4" />
+            <Skeleton className="h-4 w-1/2" />
+          </div>
+        ))}
+    </div>
+  );
+}
+
+export default async function MovieDetails({ id, userId }) {
   const movie = await fetchmovieDetails(id);
 
   if (!movie) {
@@ -86,28 +99,23 @@ async function MovieDetails({ id, userId }) {
                 </div>
                 <Cast id={id} />
                 <div className="mb-6">
-                  <div className="flex flex-wrap gap-4">
-                    <AddToWatch
-                      userId={userId}
-                      movieId={id}
-                     
-                    />
-
-                    <AddedToWatch />
-                  </div>
+                  <WatchActions
+                    userId={userId}
+                    movieId={id}
+                    movieTitle={movie.title}
+                    ImageSrc={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                  />
                 </div>
-                <SocialMedia />
+                <SocialMedia movie={movie} />
               </div>
             </div>
           </div>
         </div>
       </div>
       {/* Lazy-load the SimilarMovies component */}
-      <Suspense fallback={<p>Loading similar movies...</p>}>
+      <Suspense fallback={<SimilarMoviesSkeleton />}>
         <SimilarMovies id={id} />
       </Suspense>
     </>
   );
 }
-
-export default MovieDetails;

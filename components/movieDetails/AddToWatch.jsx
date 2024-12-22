@@ -1,8 +1,8 @@
 "use client";
 
-function AddToWatch({ userId, movieId ,movieTitle, ImageSrc}) {
+function AddToWatch({ userId, movieId, movieTitle, ImageSrc, onAddSuccess }) {
   const handleAddToWatch = async () => {
-    console.log("user__id", userId, movieId ,); // লগ চেক করতে
+    console.log("Adding to watch list:", userId, movieId, movieTitle, ImageSrc);
 
     try {
       const response = await fetch("/api/watchlist", {
@@ -10,14 +10,14 @@ function AddToWatch({ userId, movieId ,movieTitle, ImageSrc}) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId, movieId }),
+        body: JSON.stringify({ userId, movieId, movieTitle, ImageSrc}),
       });
-
-      const data = await response.json();
 
       if (response.ok) {
         alert("Movie added to watch list successfully!");
+        onAddSuccess(); // Notify the parent component
       } else {
+        const data = await response.json();
         alert(`Error: ${data.message}`);
       }
     } catch (error) {

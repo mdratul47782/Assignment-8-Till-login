@@ -1,8 +1,8 @@
 "use client";
 
-function AddToWatch({ userId, movieId }) {
+function AddToWatch({ userId, movieId ,movieTitle, ImageSrc}) {
   const handleAddToWatch = async () => {
-    console.log("user__id", userId); // লগ চেক করতে
+    console.log("user__id", userId, movieId ,); // লগ চেক করতে
 
     try {
       const response = await fetch("/api/watchlist", {

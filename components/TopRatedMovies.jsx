@@ -2,7 +2,8 @@ import Image from "next/image";
 import { fetchtopRattedMovies } from "@/app/lib/HomePageCalles/topRattedMovies";
 import Link from "next/link";
 
-export default async function PopularMovies() {
+export default async function PopularMovies({ id }) {
+  const userId = id; 
   // Fetch popular movies on the server side
   const movies = await fetchtopRattedMovies();
 
@@ -15,7 +16,7 @@ export default async function PopularMovies() {
             key={movie.id}
             className="flex-shrink-0 w-48 cursor-pointer hover:scale-105 transition-transform"
           >
-            <Link href={`Details/${movie.id}`}>
+            <Link href={`Details/${movie.id}?userId=${userId}`}>
               <Image
                 width={192}
                 height={288}
